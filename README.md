@@ -11,3 +11,4 @@ This is a line from RStudio
 
 This is a test for GitHub Credentials
 
+Test for Credential Setup
