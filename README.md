@@ -6,8 +6,3 @@ Fork this repo and create your personal github repo and get started with Module 
 Once you complete a module, commit and push your changes to your own repo and give me access. I'll check your answers and I will release the answers I came up with myself.
 
 Good luck!
-
-This is a line from RStudio
-
-This is a test for GitHub Credentials
-
