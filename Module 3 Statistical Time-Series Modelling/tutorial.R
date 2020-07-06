@@ -1,17 +1,18 @@
-setwd("C:/Users/vm1040690/Documents/Data science/git/R-Modules/")
-
 library(forecast)
 library(lubridate)
 library(data.table)
 library(prophet)
+library(dplyr)
 
 # Read in the data 
 df = read.csv("data_module2_out.csv",sep=",", row.names= "X")
 df$fwk = as.Date(df$fwk)
 df = df[df$fwk != max(df$fwk),]
+str(df)
 
 # The first model we'll be trying is called AR - autoregressive model. Meaning we regress the series on its own lagged values. 
 # First, let's see how the series is correlated with its own lagged values. Acf stands for auto-correlation function. 
+par(mfrow=c(1,1))
 Acf(df$sales, lag.max = 52)
 
 # You'll notice the bar for 52 is high, as well as its previous value (lag 1).
@@ -57,7 +58,7 @@ m$x.mean
 
 cat("mean:", round(m$x.mean),"\n","Last Pred", round(tail(pred,1))) # Getting close !
 
-# Now we've seen an AR(1) model at work. Let's extend to ARMA models. This stands for autoregressive, moving average models.
+# Now we've seen an AR(1) model at work. Let's extend to ARIMA models. This stands for autoregressive, moving average models.
 # The AR models do not take into consideration trend. We can account for this by adding a moving average component.
 # This is a parameter regressed on the residuals (checks if we're consistently higher or lower, which would indicate an upward or downward trend)
 # Let's formulate this model
@@ -131,7 +132,7 @@ m <- prophet(seasonality.mode = 'additive',
 
 # Let's fit the model and use plot to see the predictions 
 m <- suppressMessages(fit.prophet(m, df))
-plot(m,predict(m, df))
+plot(m,predict(m, df)) + add_changepoints_to_plot(m)
 
 ## As you can see, we are now much more closely fitting the last months' sales. 
 
